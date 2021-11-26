@@ -1,57 +1,42 @@
 # KCD-Guatemala-Code
 Codigo para Kubernetes Community Days Guatemala 
 
-## Iniciamos el proyecto
+## Iniciamos el proyecto gRPC-Client-api
 
 `mkdir gRPC-Client-api`
 
 `cd gRPC-Client-api`
 
-`go mod init gRPC`
+`npm init -y`
+
+`npm install express cors morgan`
+
+`npm install @grpc/grpc-js @grpc/proto-loader async google-protobuf lodash minimist`
+
+## Iniciamos el proyecto gRPC-Server
 
 `mkdir gRPC-Server`
 
 `cd gRPC-Server`
 
-`go mod init kcd/gRPC-Server`
+`npm init -y`
 
+`npm install mysql`
 
-## Instalar dependencias gRPC
-
-`go get -u google.golang.org/grpc`
-
-`go get github.com/golang/protobuf/proto@v1.5.2`
-
-`go get google.golang.org/protobuf/reflect/protoreflect@v1.27.1`
-
-`go get google.golang.org/protobuf/runtime/protoimpl@v1.27.1`
-
-## Instalar dependencias para compilar el .proto
-
-`go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26`
-
-`go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1`
-
-`export PATH="$PATH:$(go env GOPATH)/bin"`
-
-`protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/kcd.proto`
-
-## API - Instalamos gorilla mux para el server y go-randomdata para nombres random
-`go get -u github.com/gorilla/mux`
-
-`go get github.com/Pallinder/go-randomdata`
-
-`go get -u github.com/go-sql-driver/mysql`
+`npm install @grpc/grpc-js @grpc/proto-loader async google-protobuf lodash minimist`
 
 ## Creacion de las imagenes de los contenedores
-`docker build -t "racarlosdavid/grpc_client_api" .`
 
-`docker build -t "racarlosdavid/grpc_server" .`
+`docker build -t "racarlosdavid/grpc_client_api" ./gRPC/nodeJS/gRPC-Client-api`
+
+`docker build -t "racarlosdavid/grpc_server" ./gRPC/nodeJS/gRPC-Server`
+
+`docker build -t "racarlosdavid/kcd_frontend" ./frontend`
 
 ## Prueba de los contenedores
-`docker run -it -d -p 2000:2000 -e HOST=192.168.1.4 --name grpc_client_api_ racarlosdavid/grpc_client_api`
+`docker run -it -d -p 3000:3000 --name grpc_client_api racarlosdavid/grpc_client_api`
 
-`docker run -it -d -p 50051:50051 --name grpc_server_ racarlosdavid/grpc_server`
+`docker run -it -d -p 50051:50051 --name grpc_server racarlosdavid/grpc_server`
 
 ## Subir contenedores a dockerhub
 `docker login`
@@ -60,27 +45,23 @@ Codigo para Kubernetes Community Days Guatemala
 
 `docker push racarlosdavid/grpc_server`
 
+`docker push "racarlosdavid/kcd_frontend"`
+
 ## Creacion del cluster
-`gcloud config get-value project`
 
-`gcloud config set project <NOMBRE DEL PROYECTO>`
-
-`gcloud config set compute/zone us-central1-a`
-
-`gcloud container clusters create <NOMBRE DEL CLUSTER> --num-nodes=1 --tags=all-in,all-out --machine-type=n1-standard-2 --no-enable-network-policy`
 
 ## Instalacion de Ingress
 `helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx`
 
 `helm repo update`
 
-`helm install ingress-nginx ingress-nginx/ingress-nginx -n ayd2-backend`
+`helm install ingress-nginx ingress-nginx/ingress-nginx`
 
 ## Kubernetes
 
-`kubectl apply -f deployment-grpc-kubernetes.yml`
+`kubectl apply -f deployment.yml`
 
-`kubectl apply -f ingress-grpc-kubernetes.yml`
+`kubectl apply -f ingress.yml`
 
 `kubectl get services`
 
