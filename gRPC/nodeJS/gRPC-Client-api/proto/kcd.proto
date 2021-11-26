@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option go_package = "gRPC/proto";
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.kcd";
+option java_outer_classname = "kcd";
+option objc_class_prefix = "HLW";
+
+package kcd;
+
+service KCD {
+  rpc AddComment(AddCommentRequest) returns (AddCommentReply) {}
+  rpc GetComments(Empty) returns (stream GetCommentsReply) {}
+}
+
+message Empty {}
+
+message AddCommentRequest {
+  string nombre = 1;
+  string comentario = 2;
+}
+
+message AddCommentReply {
+    string message = 1;
+  }
+
+message GetCommentsReply {
+  int32 id = 1;
+  string nombre = 2;
+  string comentario = 3;
+}

@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-demo
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: grpc.carlosdavid.technology
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: svc-grpc
+            port:
+              number: 3000
+  - host: app.carlosdavid.technology
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: svc-webapp
+            port:
+              number: 80

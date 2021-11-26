@@ -1,0 +1,24 @@
+{
+  "name": "grpc-client-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node api_server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.4.4",
+    "@grpc/proto-loader": "^0.6.7",
+    "async": "^3.2.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "google-protobuf": "^3.19.1",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.5",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1"
+  }
+}
